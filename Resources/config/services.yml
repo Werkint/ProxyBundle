@@ -2,10 +2,6 @@ services:
     werkint.proxy:
         class: Werkint\Bundle\ProxyBundle\Service\Proxy
         arguments:
-            - @werkint.proxy.provider
-    werkint.proxy.provider:
-        class: Werkint\Bundle\ProxyBundle\Social\Provider
-        arguments:
             - @werkint.redis.ns.werkint_proxy
             - %werkint_proxy%
         tags:

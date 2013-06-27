@@ -11,7 +11,7 @@
     ],
     "require":     {
         "werkint/redis-bundle": "*",
-        "php":                  ">=5.3"
+        "php":                  ">=5.4"
     },
     "target-dir":  "Werkint/Bundle/ProxyBundle",
     "autoload":    {

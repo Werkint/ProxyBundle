@@ -4,6 +4,11 @@ namespace Werkint\Bundle\ProxyBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * Configuration.
+ *
+ * @author Bogdan Yurov <bogdan@yurov.me>
+ */
 class Configuration implements ConfigurationInterface
 {
 
@@ -20,7 +25,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root($this->alias)->children();
 
         $rootNode
-            ->scalarNode('code')->end();
+            ->scalarNode('url')->end();
 
         $rootNode->end();
         return $treeBuilder;
