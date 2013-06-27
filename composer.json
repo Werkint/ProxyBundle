@@ -1,0 +1,22 @@
+{
+    "name":        "werkint/proxy-bundle",
+    "type":        "library",
+    "description": "Proxy module",
+    "license":     "GPL",
+    "authors":     [
+        {
+            "name":  "Bogdan Yurov",
+            "email": "bogdan@yurov.me"
+        }
+    ],
+    "require":     {
+        "werkint/redis-bundle": "*",
+        "php":                  ">=5.3"
+    },
+    "target-dir":  "Werkint/Bundle/ProxyBundle",
+    "autoload":    {
+        "psr-0": {
+            "Werkint\\Bundle\\ProxyBundle": ""
+        }
+    }
+}
