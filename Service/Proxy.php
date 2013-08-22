@@ -2,6 +2,7 @@
 namespace Werkint\Bundle\ProxyBundle\Service;
 
 use Doctrine\Common\Cache\CacheProvider;
+use Guzzle\Service\Client;
 
 /**
  * Proxy.
@@ -101,13 +102,22 @@ class Proxy
      */
     public function updateData()
     {
-        $data = file_get_contents($this->url);
+        $client = new Client();
+        $ret = $client->get(
+            $this->url,
+            [],
+            ['timeout' => 200]
+        )->send();
+        $data = $ret->getBody(true);
         $data = explode("\n", $data);
         array_shift($data);
 
         $this->list = [];
         foreach ($data as $row) {
             $row = str_getcsv($row);
+            if (count($row) != 6) {
+                continue;
+            }
             $this->list[] = [
                 'url'  => $row[0] . ':' . $row[1],
                 'name' => $row[2] . ' ' . $row[3] . ' ' . $row[4],
