@@ -9,10 +9,11 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *
  * @author Bogdan Yurov <bogdan@yurov.me>
  */
-class Configuration implements ConfigurationInterface
+class Configuration implements
+    ConfigurationInterface
 {
 
-    private $alias;
+    protected $alias;
 
     public function __construct($alias)
     {

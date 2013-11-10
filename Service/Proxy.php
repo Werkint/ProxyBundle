@@ -9,10 +9,13 @@ use Guzzle\Service\Client;
  *
  * @author Bogdan Yurov <bogdan@yurov.me>
  */
-class Proxy
+class Proxy implements
+    ProxyInterface
 {
     protected $cacher;
     protected $url;
+    protected $list;
+    protected $lists;
 
     public function __construct(
         CacheProvider $cacher,
@@ -24,8 +27,6 @@ class Proxy
         $this->fetchData();
     }
 
-    protected $list;
-
     /**
      * Returns full cached list.
      * @return array
@@ -35,8 +36,11 @@ class Proxy
         return $this->list;
     }
 
-    protected $lists;
-
+    /**
+     * Finds cached list for certain class
+     * @param string|null $class
+     * @return string[]
+     */
     protected function &getListByClass($class = null)
     {
         if ($class) {
@@ -48,8 +52,12 @@ class Proxy
         return $this->list;
     }
 
-    public function getNext($class = null)
-    {
+    /**
+     * {@inheritdoc}
+     */
+    public function getNext(
+        $class = null
+    ) {
         $this->getCurrent($class);
         if ($class) {
             if (!isset($this->lists[$class])) {
@@ -67,8 +75,12 @@ class Proxy
         return $row['url'];
     }
 
-    public function getCurrent($class = null)
-    {
+    /**
+     * {@inheritdoc}
+     */
+    public function getCurrent(
+        $class = null
+    ) {
         if ($class) {
             if (!isset($this->lists[$class])) {
                 $this->lists[$class] = $this->list;
@@ -80,25 +92,7 @@ class Proxy
     }
 
     /**
-     * Fetches cached data
-     * @return bool
-     */
-    protected function fetchData()
-    {
-        $this->list = $this->cacher->fetch('list');
-        if (!$this->list) {
-            $this->updateData();
-        }
-        $this->lists = $this->cacher->fetch('lists');
-        if (!$this->lists) {
-            $this->lists = [];
-        }
-        return true;
-    }
-
-    /**
-     * Fetches list from remote server, stores it in Redis
-     * @return bool
+     * {@inheritdoc}
      */
     public function updateData()
     {
@@ -128,4 +122,24 @@ class Proxy
         $this->cacher->save('lists', []);
         return true;
     }
+
+    /**
+     * Fetches cached data
+     * @return bool
+     */
+    protected function fetchData()
+    {
+        $this->list = $this->cacher->fetch('list');
+        if (!$this->list) {
+            $this->updateData();
+        }
+
+        $this->lists = $this->cacher->fetch('lists');
+        if (!$this->lists) {
+            $this->lists = [];
+        }
+
+        return true;
+    }
+
 }

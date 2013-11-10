@@ -14,8 +14,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class WerkintProxyExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
-    {
+    public function load(
+        array $configs,
+        ContainerBuilder $container
+    ) {
         $processor = new Processor();
         $config = $processor->processConfiguration(
             new Configuration($this->getAlias()),
@@ -32,8 +34,4 @@ class WerkintProxyExtension extends Extension
         $loader->load('services.yml');
     }
 
-    public function getAlias()
-    {
-        return 'werkint_proxy';
-    }
 }
